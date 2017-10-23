@@ -6,7 +6,7 @@
 # code pythonfile.py
 
 # -------------------------
-# first code/program
+# first program "hello world"
 print("Hello World")
 
 # -------------------------
@@ -31,3 +31,12 @@ integer += floatVar     # multiplication
 integer /= floatVar     # division
 integer %= floatVar     # modulo
 
+# -------------------------
+# boolean operators
+is_equal = integerVar == int(floatVar)
+print(is_equal)
+
+# -------------------------
+# comparrison operators
+is_greater = integerVar > (int(floatVar) - 1)
+is_smaller = integerVar < (int(floatVar) + 1)
