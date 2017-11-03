@@ -1,196 +1,177 @@
-(* a compilation of sort-algoritm *)
+program Project1;
 
-// selectionsort
-Procedure SelectionSort;
-var i, j, min : Integer;
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+Uses sysutils;
+
+var
+  Data: Array[0..4] of String;
+
+
+
+Procedure Change(x, y: Integer);
+var temp: String;
 Begin
-  For i:= 1 to N-1 Do
-  Begin
-    min:= i;
-    For j:= i+1 To N Do
-      If (Data[j] < Data[min]) Then min:= j;
-
-    SwapValues( i, min);
-  End;
+     temp := Data[x];
+     Data[x] := Data[y];
+     Data[y] := temp;
 End;
 
-// insertionsort
+{ Pseudocode
+INSERTIONSORT(A)
+for i ? 2 to Länge(A) do
+  einzusortierender_wert ? A[i]
+  j ? i
+  while j > 1 and A[j-1] > einzusortierender_wert do
+    A[j] ? A[j - 1]
+    j ? j - 1
+  A[j] ? einzusortierender_wert}
 Procedure InsertionSort;
-var i,j,v : Integer;
+var
+  i,j: Integer;
+  v: String;
 Begin
-  For i:= 2 To N Do
+  For i:= 2 To 4 Do
   Begin
     v:= Data[i];
     j:= i;
-    While (j > 1) and (Data[j-1] > v) Do
+    While AnsiCompareText(Data[j-1], v) = -1 Do  // (j > 1) = true and
     Begin
       Data[j]:= Data[j-1];
-      dec( j );
+      j := j - 1;
     End;
     Data[j]:= v;
-  End; 
+  End;
 End;
 
-// bubblesort
-Procedure BubbleSort;
-var i,j : Integer;
+Procedure SelectionSort;
+program sort;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+Uses sysutils;
+
+var
+  Data: Array[0..4] of String;
+
+
+
+Procedure Change(x, y: Integer);
+var temp: String;
 Begin
-  For i:= N downto 1 Do
-    For j:= 1 To i Do
-      If (Data[j-1] > Data[j]) Then SwapValues( j-1, j );
+     temp := Data[x];
+     Data[x] := Data[y];
+     Data[y] := temp;
 End;
 
-// shellsort
-Procedure ShellSort;
-var i, j, h, v : Integer;
+{ Pseudocode
+INSERTIONSORT(A)
+for i ? 2 to Länge(A) do
+  einzusortierender_wert ? A[i]
+  j ? i
+  while j > 1 and A[j-1] > einzusortierender_wert do
+    A[j] ? A[j - 1]
+    j ? j - 1
+  A[j] ? einzusortierender_wert}
+Procedure InsertionSort;
+var
+  i,j: Integer;
+  v: String;
 Begin
-  h:= 1;
-  Repeat
-    h:= (3 * h) +1;
-  Until (h > N);
-
-  Repeat
-    h:= (h div 3);
-    For i:= (h+1) To N Do
+  For i:= 1 To 4 Do
+  Begin
+    v:= Data[i];
+    j:= i;
+    While ((j > 0) = true) AND (AnsiCompareText(Data[j-1], v) = -1) Do
     Begin
-      v:= Data[i];
-      j:= i;
-
-      While ((j > h) and (Data[j-h] > v)) Do
-      Begin
-        Data[j]:= Data[j-h];
-        dec( j, h );
-      End;
-      Data[j]:= v;
+      Data[j]:= Data[j-1];
+      j := j - 1;
     End;
-  Until (h = 1);
+    Data[j]:= v;
+  End;
 End;
 
-// quicksort
+Procedure SelectionSort;
+var i, j, min : Integer;
+Begin
+  For i:= 0 to 4 Do
+  Begin
+    min:= i;
+    For j:= i+1 To 4 Do
+      If AnsiCompareText(Data[j], Data[min]) = -1 Then min:= j;
+    Change(i, min);
+  End;
+End;
+
+Procedure ShellSort(size : Integer);
+var
+  step, start, i, j: Integer;
+
+begin
+  step := size;
+  repeat
+    step := (step-1) DIV 3;
+    start := 0;
+    while (start < step) do
+      begin
+        i := start + 1;
+        while (i<size) do
+          begin
+            j := i-1;
+            while (j >= 0) do
+              begin
+                if AnsiCompareText(Data[j], data[j+step]) = -1 then
+                  change(j, j+step);
+                j := j - step;
+              end;
+            i := i + step;
+          end;
+        start := start + 1;
+      end;
+  until (step>0)
+end;
+
+{ Pseudocode:
+funktion quicksort(links, rechts)
+  falls links < rechts dann
+    teiler:= teile(links, rechts)
+    quicksort(links, teiler-1)
+    quicksort(teiler+1, rechts)
+  ende
+ende
+}
 Procedure QuickSort( l,r : Integer );
 var i : Integer;
 Begin
-  If (r > l) Then
-  Begin
-    i:= Partition( l, r);
-    QuickSortRekursiv( l, i-1 );
-    QuickSortRekursiv( i+1, r );
-  End;
-End;
-
-Function Partition( l,r : Integer ) : Integer;
-var v,t,i,j : Integer;
-Begin
-  v:= Data[r];
-  i:= l-1;
-  j:= r;
-  Repeat
-    Repeat inc( i ); Until (Data[i] >= v);
-    Repeat dec( j ); Until (Data[j] <= v);
-    t:= Data[i]; Data[i]:= Data[j]; Data[j]:= t;
-  Until (j<=i);
-
-  Data[j]:= Data[i]; Data[i]:= Data[r]; Data[r]:= t;
-  Result:= i;
-End;
-
-Procedure QuickSortIterativ;
-var i, l, r : Integer;    
-Begin
-  l:= 1; r:= N;
-  Stack.Push( l ); Stack.Push( r );
-  Repeat
-    If (r > l) Then
-    Begin
-      i:= Partition( l, r );
-      If (i-l) > (r-i) Then
+    If AnsiCompareText(Data[l], Data[r]) = 1 Then
       Begin
-        Stack.Push( l );
-        Stack.Push( i-1 );
-        l:= i+1;
-      End
-      Else
-      Begin
-        Stack.Push( i+1 );
-        Stack.Push( r );
-        r:= i-1;
+        i:= (l + r) mod 2;
+        QuickSort( l, i-1 );
+        QuickSort( i+1, r );
       End;
-    End
-    Else
-    Begin
-      r:= Stack.Pop;
-      l:= Stack.Pop;
-    End;
-  Until StackisEmpty;
 End;
 
-// heapsort
-Procedure HeapSort;
-var i, k, m : Integer;
-Begin
-  m:= N;
-  k:= m div 2;
+begin
+     Data[0] := 'Test55';
+     Data[1] := 'Test2';
+     Data[2] := 'Test3';
+     Data[3] := 'Test10';
+     Data[4] := 'Test5';
 
-  For i:= k downto 1 Do downHeap( i, m );
+     //InsertionSort;
+     //SelectionSort;
+     ShellSort(5);
+     //Bubblesort;
+     //QuickSort(0, 4);
 
-  While (m > 1) Do
-  Begin
-    SwapValues( 1, m );
-    dec( m );
-    downHeap( 1, m );
-  End;
-End;
-
-Procedure downHeap( index, heapSize : Integer );
-var j, k, m, v : Integer;
-Begin
-  k:= index;
-  v:= Data[k];
-  m:= heapSize;
-  While (k <= (m div 2)) Do
-  Begin
-    j:= 2*k;
-    If (j < n) Then
-      If (Data[j] < Data[j+1]) Then inc( j );
-    If (v > Data[j]) Then
-    Begin
-      Data[k]:= v;
-      Exit;
-    End;
-    SwapValues( k, j );
-    k:= j;
-  End;
-End;
-
-// mergesort
-Procedure MergeSort( l, r : Integer );
-var i, j, k, m : Integer;
-Begin
-  If (l < r) Then
-  Begin
-    m:= (r+l) div 2;
-
-    MergeSort( l, m );
-    MergeSort( m+1, r );
-
-    For i:= l To m Do HilfsArray[i]:= Data[i];
-    i:= l;
-
-    For j:= m+1 To r Do HilfsArray[r+m+1-j]:= Data[j];
-    j:= r;
-
-    For k:= l To r Do
-    Begin
-      If (HilfsArray[i] < HilfsArray[j]) Then
-      Begin
-        Data[k]:= HilfsArray[i];
-        inc( i );
-      End
-      Else
-      Begin
-        Data[k]:= HilfsArray[j];
-        dec( j );
-      End;
-    End;
-  End;
-End;
+     Writeln(Data[0]);
+     Writeln(Data[1]);
+     Writeln(Data[2]);
+     Writeln(Data[3]);
+     Writeln(Data[4]);
+     Readln(Data[0]);
+end.
