@@ -5,7 +5,7 @@ program project1;
 
 Uses sysutils;
 var
-  Data: Array[0..4] of String;
+  Data: Array[0..7] of String;
 
 Procedure Change(x, y: Integer);
 var temp: String;
@@ -77,121 +77,122 @@ begin
 end;
 
 {Begin Heap-Sort}
-{const SIZE = 20000;
-type TFeld = array[1..SIZE] of integer;}
-//Heapsort(A) {
-   BuildHeap(A)
-   for i <- length(A) downto 2 {
-      exchange A[1] <-> A[i]
-      heapsize <- heapsize -1
-      Heapify(A, 1)
-}
+procedure HeapSort;
+var
+  n: Integer;
 
-
-
-//BuildHeap(A) {
-   heapsize <- length(A)
-   for i <- floor( length/2 ) downto 1
-      Heapify(A, i)
-}
-
-
-
-
-//Heapify(A, i) {
-   le <- left(i)
-   ri <- right(i)
-   if (le<=heapsize) and (A[le]>A[i])
-      largest <- le
-   else
-      largest <- i
-   if (ri<=heapsize) and (A[ri]>A[largest])
-      largest <- ri
-   if (largest != i) {
-      exchange A[i] <-> A[largest]
-      Heapify(A, largest)
-   }
-}
-procedure heapsort;
-    procedure genheap(Data: Array of String);             { Heap (mit linearem Aufwand) aufbauen }
-    var
-      i,j,max: Integer;
-    begin
-        for i := 4 div 2 downto 0 do begin   { zweite Hälfte des Feldes braucht nicht betrachtet werden }
-            j:=i;
-            while j <= 4 div 2 do begin
-                max := j * 2 + 1;               { finde Maximum der (beiden) Söhne }
-                if max > 4 then
-                  max := max - 1
-                else if AnsiCompareText(Data[max-1], data[max]) = -1 then
-                  max := max - 1;
-                if AnsiCompareText(Data[max], data[j]) = -1 then begin     { ggf. tauschen = Change}
-                    change(max, j);
-                end;
-                j := max;
-            end;
-        end;
-    end;
-
-    function popmax(Data: Array of String;heapsize: Integer): String;
-    var
-      i,max: Integer;
-    begin
-        popmax := Data[1];
-        Data[1] := Data[heapsize];
-        i := 1;
-        while i <= (heapsize div 2) do begin { letztes Element an Anfang setzen und versickern lassen }
-            max := i * 2 + 1;               { finde Maximum der (beiden) Söhne }
-            if max > heapsize then
-              max := max - 1
-            else if AnsiCompareText(Data[max - 1], data[max]) = -1 then
-              max := max - 1;
-            if AnsiCompareText(Data[i], data[max]) = -1 then begin     { ggf. tauschen = Change}
-                change(max, i);
-            end;
-            i := max;
-        end;
-    end;
-
-var i:integer;
+procedure downheap(v: Integer);
+var
+  w: Integer;
 begin
-    genheap(Data);
-    for i:=4 downto 0 do Data[i] := popmax(Data,i);
+  w:=2*v+1;
+  while (w<n) do
+    begin
+      if (w+1<n) then
+        if AnsiCompareText(Data[w+1], data[w]) = 1 then
+          w:=w+1;
+      if AnsiCompareText(Data[v], data[w]) = -1 then
+        change(v, w);
+      v:=w;
+      w:=2*v+1;
+    end;
+end;
+
+procedure buildheap;
+var
+  v: Integer;
+begin
+  for v:=n div 2 - 1 downto 1 do
+    downheap(v)
+end;
+
+begin
+  n:=8;
+  buildheap;
+  while (n>1) do
+    begin
+      n:=n-1;
+      change(0,n);
+      downheap(0)
+    end;
 end;
 {Ende Heap-Sort}
 
-Procedure QuickSort( l,r : Integer );
-var i : Integer;
+{Begin Quick-Sort}
+Procedure QuickSort;
+var
+  n: Integer;
 
-Begin
-    If AnsiCompareText(Data[l], Data[r]) = 1 Then
-      Begin
-        i:= (l + r) mod 2;
-        QuickSort( l, i-1 );
-        QuickSort( i+1, r );
-      End;
-End;
+function partition(left, right: Integer) : Integer;
+var
+  i, j, temp: Integer;
+  pivot: String;
+begin
+  i:=left;
+  j:=right;
+  pivot := Data[(left + right) Div 2];
+  while (i <= j) do
+    begin
+      while (AnsiCompareText(Data[i], pivot) = -1) do
+        i := i + 1;
+      while (AnsiCompareText(pivot, Data[j]) = -1) do
+        j := j - 1;
+      if (i <= j) then
+        begin
+          change(i, j);
+          i := i + 1;
+          j := j - 1;
+        end;
+    end;
+    partition := i;
+end;
+
+procedure devide(left, right: Integer);
+var
+  index: Integer;
+begin
+  index := partition(left, right);
+  if (left < index - 1) then
+    devide(left, index - 1);
+  if (index < right) then
+    devide(index, right);
+end;
 
 begin
-     Data[0] := 'Test5';
+  n:=7;
+  devide(0, n);
+end;
+{Ende Quick-Sort}
+
+begin
+     Data[0] := 'Test9';
      Data[1] := 'Test2';
      Data[2] := 'Test3';
      Data[3] := 'Test1';
      Data[4] := 'Test6';
+     Data[5] := 'Test0';
+     Data[6] := 'Test5';
+     Data[7] := 'Test7';
 
      //InsertionSort;
      //SelectionSort;
      //ShellSort(5);
      //Bubblesort;
-     //???QuickSort(0, 4);
-     heapsort;
+     //HeapSort;
+     QuickSort;
 
-     if AnsiCompareText(Data[1], data[0]) = -1 then // (a < b) = true
-        Data[0]:='true';
+
+     {if AnsiCompareText(Data[1], data[0]) = -1 then // (a < b) = true
+        Data[0]:='true';}
      Writeln(Data[0]);
      Writeln(Data[1]);
      Writeln(Data[2]);
      Writeln(Data[3]);
      Writeln(Data[4]);
+     Writeln(Data[5]);
+     Writeln(Data[6]);
+     Writeln(Data[7]);
+
      Readln(Data[0]);
 end.
+
