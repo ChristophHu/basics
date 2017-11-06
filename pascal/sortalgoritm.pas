@@ -164,6 +164,15 @@ begin
 end;
 {Ende Quick-Sort}
 
+{Begin ShackerSort}
+procedure ShackerSort;
+var
+  left, right: Integer;
+begin
+  
+end;
+{Ende ShackerSort}
+
 begin
      Data[0] := 'Test9';
      Data[1] := 'Test2';
@@ -179,8 +188,8 @@ begin
      //ShellSort(5);
      //Bubblesort;
      //HeapSort;
-     QuickSort;
-
+     //QuickSort;
+     ShackerSort;
 
      {if AnsiCompareText(Data[1], data[0]) = -1 then // (a < b) = true
         Data[0]:='true';}
