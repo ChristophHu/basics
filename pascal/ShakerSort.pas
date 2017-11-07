@@ -1,4 +1,4 @@
-programm SortAlgorithm;
+program SortAlgorithm;
 
 {$APPTYPE CONSOLE}
 {$R *.res}
@@ -24,7 +24,7 @@ var
 
 begin
   n := 7;
-  left := 0;
+  left := -1;
   right := n -1;
 
   repeat
@@ -36,20 +36,18 @@ begin
           begin
             change(index + 1, index);
             done := true;
-	  end;
+	        end;
       end;
-    if (done = true) then break;
-    done := false;
     right := right - 1;
-    for index := right to (left - 1) do
+    for index := right downto left do
       begin
         if (AnsiCompareText(Data[index + 1], Data[index]) = -1) then
           begin
-	    change(index + 1, index);
+	          change(index + 1, index);
             done := true;
           end;
       end;
-  until ();
+  until (done = false);
 end;
 {end ShakerSort}
 
@@ -74,5 +72,5 @@ Data[0] := 'Test9';
   Writeln(Data[6]);
   Writeln(Data[7]);
 
-  Readln(Data[0]);  
+  Readln(Data[0]);
 end.
