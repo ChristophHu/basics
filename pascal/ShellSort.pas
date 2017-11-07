@@ -16,42 +16,36 @@ Begin
      Data[y] := temp;
 End;
 
-{begin ShakerSort}
-procedure ShakerSort;
+{begin ShellSort}
+Procedure ShellSort();
 var
-  left, right, n, index: Integer;
-  done: Boolean;
+  n, step, start, i, j: Integer;
 
 begin
   n := 7;
-  left := 0;
-  right := n -1;
-
+  step := n;
   repeat
-    done := false;
-    left := left + 1;
-    for index := left to right do
+    step := (step-1) DIV 3;
+    left := 0;
+    while (left < step) do
       begin
-        if (AnsiCompareText(Data[index + 1], Data[index]) = -1) then
+        i := left + 1;
+        while (i<n) do
           begin
-            change(index + 1, index);
-            done := true;
-	  end;
-      end;
-    if (done = true) then break;
-    done := false;
-    right := right - 1;
-    for index := right to (left - 1) do
-      begin
-        if (AnsiCompareText(Data[index + 1], Data[index]) = -1) then
-          begin
-	    change(index + 1, index);
-            done := true;
+            j := i-1;
+            while (j >= 0) do
+              begin
+                if AnsiCompareText(Data[j], data[j+step]) = -1 then
+                  change(j, j+step);
+                j := j - step;
+              end;
+            i := i + step;
           end;
+        left := left + 1;
       end;
-  until ();
+  until (step>0)
 end;
-{end ShakerSort}
+{end ShellSort}
 
 begin
 Data[0] := 'Test9';
@@ -63,7 +57,7 @@ Data[0] := 'Test9';
   Data[6] := 'Test5';
   Data[7] := 'Test7';
 
-  ShakerSort;
+  ShellSort;
 
   Writeln(Data[0]);
   Writeln(Data[1]);
