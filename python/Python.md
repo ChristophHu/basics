@@ -20,3 +20,43 @@ Ist Python (Anaconda) installiert, kann Jupyter Notebook einfach durch das Komma
 
 Pandas ist eine Open Source Bibliothek, die auf NumPy aufgebaut ist. Es erlaubt eine schnelle Datenanlyse und -bereinigung. Viele Datenquellen können damit verarbeitet werden. Eine zusätzliche nstallation ist nicht erforderlich, da es bei der Installation von Anaconda mit integriert ist. Sollte das nicht der Fall sein, kann es per `conda install pandas` nahgeladen werden.
 
+#### Series
+```python
+import numpy as np
+import pandas as pd
+
+labels = ["a", "b", "c"]
+liste = [10, 20, 30]
+arr = np.array(liste)           # Numpy-Array
+dict = ("a":10, "b":20, "c":30) #
+pd.Series(data=liste)           # Zuweisung der Liste zu Pandas
+pd.Series(data=liste, index=labels) # Labels > Index
+pd.Series(array, labels)        # Ausgabe mit Numpy-Array und Labels
+```
+
+#### Data Frames
+```python
+from numpy.random import randn
+
+np.random.seed(101)
+
+# Erstellung des DataFrames (ähnlich Series)
+df = pd.DataFrame(randn(5, 4), index='A B C D E'.spilt(),columns='W X Y Z'.split())
+df                              # Ausgabe des DataFrame
+df["W", "Z"]                    # Ausgabe der Spalte W und Z (df.W geht auch)
+
+# Erstellen/Löschen einer neuen Spalte
+df["neu"] = df["W"] + df["Y"]   # aufnahme der Spalte 'neu' als Summe der Spalten 'W' und 'Y'
+df.drop('neu', axis=1)          # entfernt die Spalte 'neu' nur temporär
+df.drop('neu', axis=1, inplace=true)  # entfernt die Spalte final
+
+# Erstellen/Löschen einer neuen Zeile
+df.drop('E', axis=0)            # Zeile ebenfalls temp. entfernt
+
+# Zeilen/Spalten ausgeben
+df.loc['A']                     # Ausgabe einer Zeile
+df.iloc[2]                      # Ausgabe des Index
+
+df.loc['A', 'Y']                # Ausgabe der Zeile
+df.loc[['A', 'B'], ['X', 'Y']]  # Ausgabe eines Bereiches
+```
