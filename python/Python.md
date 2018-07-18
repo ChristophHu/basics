@@ -60,3 +60,22 @@ df.iloc[2]                      # Ausgabe des Index
 df.loc['A', 'Y']                # Ausgabe der Zeile
 df.loc[['A', 'B'], ['X', 'Y']]  # Ausgabe eines Bereiches
 ```
+
+###### Bedingte Auswahl
+```python
+# positive Werte
+df[df>0]                        # Ausgabe aller Werte größer 0
+
+# Spalten auswählen
+df[df['W']>0][['X', 'Y', 'Z']]  # Ausgabe der drei Spalten X-Z
+
+# Filter kombinieren
+df[(df['W']>0) & (df['Y']>1)]   # Ausgabe der Zeilen, bei denen W>0 "und" Y>1 ist
+df[(df['W']>0) | (df['Y']>1)]   # Ausgabe mit "oder"
+
+# Index vorausstellen
+df.reset_index()                # stellt dem vorhandenen Index einen weiteren Index vorran
+
+# Index wechseln
+df.set_index('Staaten', inplace = true) # Spalte Staaten wird neuer Index
+```
