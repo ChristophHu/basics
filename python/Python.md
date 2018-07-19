@@ -70,12 +70,70 @@ df[df>0]                        # Ausgabe aller Werte größer 0
 df[df['W']>0][['X', 'Y', 'Z']]  # Ausgabe der drei Spalten X-Z
 
 # Filter kombinieren
-df[(df['W']>0) & (df['Y']>1)]   # Ausgabe der Zeilen, bei denen W>0 "und" Y>1 ist
-df[(df['W']>0) | (df['Y']>1)]   # Ausgabe mit "oder"
+df[(df['W']>0) & (df['Y']>1)]   # UND - Ausgabe der Zeilen, bei denen W>0 und Y>1 ist
+df[(df['W']>0) | (df['Y']>1)]   # ODER - Ausgabe mit mit der logischen Verknüpfung oder
+```
 
+###### Index
+```python
 # Index vorausstellen
-df.reset_index()                # stellt dem vorhandenen Index einen weiteren Index vorran
+df.reset_index()                # stellt dem vorhandenen Index einen weiteren/neuen Index vorran
 
 # Index wechseln
 df.set_index('Staaten', inplace = true) # Spalte Staaten wird neuer Index
+```
+
+###### Multiindex
+```python
+aussen = ['Gruppe 1', 'Gruppe 1', 'Gruppe 1', 'Gruppe 2', 'Gruppe 2', 'Gruppe 2']
+innen = [1, 2, 3, 1, 2, 3]
+
+# Kombination von aussen und innen [('Gruppe 1', 1), ('Gruppe 1', 2), ... ('Gruppe 2', 3)]
+hier_index = liste(zip(aussen, innen))
+
+# Multiindex erstellen
+hier_index = pd.MultiIndex.from_tuples(hier_index)
+
+# Erstellen einer Matrix mit 6 Zeilen und 2 Spalten mit definiertem Index und den Spaltenüberschriften A und B
+df. DataFrame(np.random.randn(6, 2), index = index_hier, columns = ['A', 'B'])
+
+# Auswahl und bedingte Auswahl
+df.loc['Gruppe 1'].loc[2]       # Auswahl anhand der 2 Indizes
+
+# Indexüberschrift
+df.index.names = ['Gruppe', 'Num']
+
+# Auswahl einer Gruppe/Untergruppe
+df.xs('Gruppe 1')               # Auswahl der Gruppe
+df.xs('Gruppe 1', 1)            # Auswahl der Gruppe und Untergruppe
+df.xs('1', level = 'Num')       # Auswahl einer Untergruppe mit Namen
+```
+
+###### Verlorene Daten - Eliminierungsverfahren
+```python
+# Erstellung einer Matrix mit fehlenden Daten
+df = pd.DataFrame({'A':[1, 2, np.nan], 'B':[5, np.nan, np.nan], 'C':[1, 2, 3]})
+
+df. dropna()                    # Entfernen aller Dtaensätze mit NaN Zellen
+df.dropna(axis = 1)             # vollständie Achsen
+df.dropna(thresh = 2)           # entf. v. Datensätzen mit 2 fehlerhaften Einträgen
+
+df.fillna(value=0)              # fehlerhafte Einträge durch 0 ersetzen
+df['A'].fillna(value = df['A'].sum ())  # fehlerhafte Einträge durch Summe ersetzen
+```
+
+###### Group By
+```python
+# DataFrame erstellen
+data = {'Firma':['GOO', 'GOO', 'MS', 'MS', 'FB', 'FB'],
+        'Person':['SAM', 'Tom', 'Anne', 'Ben', 'Amy', 'Karl'],
+        'Sales':[200, 120, 340, 124, 243, 350]}
+df = pd.DataFrame(data)
+
+# Gruppieren von Gruppen nach Firma
+df.groupby('Firma').mean()      # Durchschnitt, sum() - Summe, .std() - Standardabweichung, .min() - Minimum, .max() - Maximum, .count() - Anzahl
+
+# Transportiert
+df.groupby('Forma').min().transpose()
+
 ```
