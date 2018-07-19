@@ -49,6 +49,7 @@ df["W", "Z"]                    # Ausgabe der Spalte W und Z (df.W geht auch)
 df["neu"] = df["W"] + df["Y"]   # aufnahme der Spalte 'neu' als Summe der Spalten 'W' und 'Y'
 df.drop('neu', axis=1)          # entfernt die Spalte 'neu' nur temporär
 df.drop('neu', axis=1, inplace=true)  # entfernt die Spalte final
+del df['neu']                   # entfernt die Spalte ebenfalls final
 
 # Erstellen/Löschen einer neuen Zeile
 df.drop('E', axis=0)            # Zeile ebenfalls temp. entfernt
@@ -59,6 +60,13 @@ df.iloc[2]                      # Ausgabe des Index
 
 df.loc['A', 'Y']                # Ausgabe der Zeile
 df.loc[['A', 'B'], ['X', 'Y']]  # Ausgabe eines Bereiches
+```
+
+#### Funktionen
+
+######
+```python
+df.columns                      # Ausgabe aller Spaltenüberschriften
 ```
 
 ###### Bedingte Auswahl
@@ -134,6 +142,61 @@ df = pd.DataFrame(data)
 df.groupby('Firma').mean()      # Durchschnitt, sum() - Summe, .std() - Standardabweichung, .min() - Minimum, .max() - Maximum, .count() - Anzahl
 
 # Transportiert
-df.groupby('Forma').min().transpose()
+df.groupby('Firma').min().transpose()
 
+```
+
+###### Concat, Merge, Join
+```python
+df1 = pd.DataFrame({'A':['A0', 'A1', 'A2'],
+                    'B':['B0', 'B1', 'B2'],
+                    'C':['C0', 'C1', 'C2']},
+                    index = [0, 1, 2])
+df2 = pd.DataFrame({'A':['A3', 'A4', 'A5'],
+                    'B':['B3', 'B4', 'B5'],
+                    'C':['C3', 'C4', 'C5']},
+                    index = [3, 4, 5])
+
+# Concat der zwei Frames
+pd.concat([df1, df2])           # axis = 0
+pd.concat([df1, df2], axis = 1) # axis = 1
+
+# Merge von 2 Frames
+pd.merge(df1, df2, how = 'inner', on 'key')     # Besteht ein Kex oder gleicher Index, können über diesen die zwei Frames verbunden werden (how kann auch 'outer', 'left' oder 'right' enthalten)
+
+# Join
+df1.join(df2)                   # (rechts, how = 'outer'), Std. ist 'inner'
+```
+
+#### Operationen
+
+###### Unique
+```python
+df['col'].nunique()             # die Anzahl alle einzigartigen Werte der Spalte werden ausgegeben
+df['col'].value_counts()        # Anzahl von Wertin in Spalte
+new_df = df[(df['col']>2 & (df['col2']==444))]
+```
+
+###### Funktionen anwenden
+```python
+def mal2(x):
+        return x * 2
+df['col'].apply(mal2)           # wirken der Funktion mal2 auf alle Elemente, Funktionen: len
+```
+
+###### Lambda-Funktionen anwenden
+```python
+df['col'].apply(lambda x: x * 2)
+```
+
+###### Sort by Value
+```python
+df.sort_value(by = 'col')       # Sortiert nach Spalte (kann auch als inplace = true gespeichert werden)
+```
+
+###### Is Null
+```python
+df.isnull()                     # Boolean - ausgabe von true/false wenn 0
+df.dropna()                     # Nollwerte entfernen
+df
 ```
