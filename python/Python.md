@@ -243,3 +243,34 @@ engine = create_engine('sqlite:///localhost:80')
 sql_df = pd.read_sql('Daten', engine)   # Tabelle Daten der SQL-Datenbank auslesen
 df.to_sql('Daten', engine)      # Tabelle Daten der SQL-Datenbank beschrieben
 ```
+
+Beispiele SQL:
+```python
+import panday as pd
+
+sal = pd.read_cvs('Salaries.csv')
+sal.head()                      # Ausgabe erster Datensätze
+sal.info()                      # Ausgabe allgemeiner Informationen (Spaltennamen, Anz., Type, Range)
+sal['BasePay'].mean()           # Durchschnittliches Grundgehalt
+sal['OverTimePay'].max()        # Maximale Bezahlung von Überstunden
+sal[sal['EmployeeName']=='JOSEPH DRISCOLL']['JobTitle'] # Job-Name von Joseph Driscoll
+sal[sal['TotalPayBenefits']==sal['TotalPayBenefits'].max()]['EmployeeName']
+# oder
+sal.loc[sal['TotalPayBenefits'].idxmax()]       ' Datensatz mit max Gehalt (.argmin() - kleinste)
+
+sal.groupby['Year'].mean()['BasePay']   # Durchschnittliches Grundgehalt der Jahre 2011-2104
+sal['JobTitle'].nunique()       # Einzigartige Jobtitel (oder len(sal['JobTitle'].unique()))
+
+sal['JobTitle'].values_counts().head(5) # Die 5 häufigsten Jobs
+sal[sal['Year']==2013]['JobTitle'].value_counts().head(5)       # 5 häufigsten Jobs 2013
+
+def cheefStr(title):                                    # ---
+        if 'cheef' in title.lower().split():
+                return true
+        else:
+                return false
+sum(sal['JobTitle'].apply(lambda x: cheefstring(x)))    # Summe von "cheef" im Jobtitle per Lambdafunktion
+
+sal['title_len'] = sal['JobTitle'].
+
+```
