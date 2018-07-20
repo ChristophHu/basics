@@ -172,6 +172,7 @@ df1.join(df2)                   # (rechts, how = 'outer'), Std. ist 'inner'
 
 ###### Unique
 ```python
+df['col'].unique()              # Ausgabe der unique Werte
 df['col'].nunique()             # die Anzahl alle einzigartigen Werte der Spalte werden ausgegeben
 df['col'].value_counts()        # Anzahl von Wertin in Spalte
 new_df = df[(df['col']>2 & (df['col2']==444))]
@@ -199,4 +200,46 @@ df.sort_value(by = 'col')       # Sortiert nach Spalte (kann auch als inplace = 
 df.isnull()                     # Boolean - ausgabe von true/false wenn 0
 df.dropna()                     # Nollwerte entfernen
 df
+```
+
+#### Pivot
+
+```python
+data = {'A':['foo', 'foo', 'foo', 'bar', 'bar', 'bar'],
+        'B':['one', 'one', 'two', 'two', 'one', 'one'],
+        'C':['x', 'y', 'x', 'y', 'x', 'y'],
+        'D':[1, 3, 2, 5, 4, 1]}
+
+df = pd.DataFrame(data)
+
+# Pivot-Tabelle mit Werten aus Spalte D (1-5)
+df.pivot_table(values='D', index=['A', 'B'], columns='C')       
+```
+
+### CVS, Excel und SQL
+Installation der Module sqlalchemy, lxml, html5lib und BeautifulSoap4 durch die folgenden Kommandos:
+`conda install sqlalchemy`, `conda install lxml`, `conda install html5lib` und `conda install BeautifulSoup4`.
+
+```python
+import nympy as np
+import pandas as pd
+
+pwd                             # Verzeichnis ausgeben
+
+df = pd.read_csv('examlpe.cvs') # lesen und übergeben der CSV-Datei
+df.to_cvs('save_example.csv')   # speichern des DataFrame in eine CSV-Datei
+
+df = pd.read_excel('excel_sample.xlsx', sheetname='Tabelle1') # lesen und übergeben der Excel-Datei
+df.to_excel('save_excel.xlsx', sheet_name='Tabelle1')   ' speichern des DataFrame in eine Excel-Datei
+
+df = pd.real_html('http://www.site.com')        # Auslesen einer HTML <Table> und Speicherung
+type(df)                        # wenn df eine Liste ist, kann es ausgegeben werden
+df[0]                           # Ausgabe der ersten Tabelle
+df[0].head()                    # Ausgabe der ersten Datensätze
+
+from sqlalchemy import create_engine
+engine = create_engine('sqlite:///localhost:80')
+
+sql_df = pd.read_sql('Daten', engine)   # Tabelle Daten der SQL-Datenbank auslesen
+df.to_sql('Daten', engine)      # Tabelle Daten der SQL-Datenbank beschrieben
 ```
