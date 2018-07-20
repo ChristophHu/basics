@@ -271,6 +271,83 @@ def cheefStr(title):                                    # ---
                 return false
 sum(sal['JobTitle'].apply(lambda x: cheefstring(x)))    # Summe von "cheef" im Jobtitle per Lambdafunktion
 
-sal['title_len'] = sal['JobTitle'].
+sal['title_len'] = sal['JobTitle'].apply(len)           # neue Spalte "title_len" Korrelation zw. Berufsbezeichnung und seinem Lohn
+sal['JobTitle', 'title_len'].corr                       # Eine 1:1 Korrelation. Eine Korrelation zw. Titl und Bezahlung ist 1:0 / 0:1
 
+```
+## Daten visualisieren mit Matplotlib
+
+### Diagramm erstellen
+
+###### Pakete importieren
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+```
+
+###### Wertetabelle erstellen
+```python
+x = np.linspace(0, 5, 11)       # X-Werte vorgeben
+y = x**2                        # Funktion erstellen
+plt.plot(x, y)                  # Funktion plotten
+plt.show()                      # wird außerhalb Jupyter benötigt um Plot auszugeben
+```
+
+###### Legenden und Beschriftung
+```python
+plt.xlabel('X Achse')
+plt.ylabel('Y Achse')
+plt.title('Diagramm-Überschrift')
+```
+
+###### Spezielle Diagramme
+
+###### Polt nebeneinander darstellen, Farben und Linien
+```python
+plt.subplot(1,2,1)              # 1 von 2, erstes Plot
+plt.plot(x,y, 'r--')
+
+plt.subplot(1, 2, 2)            # 1 von 2, zweites Plot
+plt.plot(y, x, 'g*-')           # f(x)=x**2 gespiegelt, grün *-
+```
+
+###### Arbeitsfläche/ objektorientiert
+```python
+af = plt.figure()
+axes = af.add_axes([0.1, 0.1, 0.8, 0.8])        # Größe der Arbeitsfläche
+
+axes.plot(x, y, 'b')            # Funktion, blau
+axes.set_xlabel('X Achse')
+axes.set_ylabel('y Achse')
+axes.set_title('Diagramm-Überschrift')
+```
+
+###### Verschachtelte Diagramme (Bild im Bild)
+```python
+af = plt.figure()
+axes1 = af.add_axes([0.1, 0.1, 0.8, 0.8])
+axes2 = af.add_axes([0.2, 0.5, 0.4, 0.3])
+
+axes1.plot(x, y, 'b')
+axes2.plot(y, x, 'r')
+```
+###### Diagram mit 2 Spalten
+```python
+diag, axes = plt.subplot(nrows = 1, ncols = 2)  # Eine Reihe, 2 Spalten, ohne Graphen
+
+# Variante 1:
+for x in axes:
+        ax.plot(x, y)           # Ausgabe beider Graphen
+
+# Variante 2:
+axes[0].plot(x, y)              # Alternative Ausgabe der Graphen per Index
+axes[0].set_xlabel('X Achse')
+axes[0].set_ylabel('Y Achse')
+
+axes[1].plot(x, y, 'r')         # Graph in rot
+```
+
+###### Überschneidungen von Diagrammen vermeiden
+```python
+plt.tight_layout()
 ```
