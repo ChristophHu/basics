@@ -281,6 +281,7 @@ sal['JobTitle', 'title_len'].corr                       # Eine 1:1 Korrelation. 
 
 ###### Pakete importieren
 ```python
+%matplotlib                     # Ausgabe des Diagramm ein eigenen Form
 import numpy as np
 import matplotlib.pyplot as plt
 ```
@@ -351,3 +352,26 @@ axes[1].plot(x, y, 'r')         # Graph in rot
 ```python
 plt.tight_layout()
 ```
+
+###### DPI
+```python
+diag = plt.figure(figsize=(8, 4), dpi = 100)
+```
+
+###### Datei speichern (png, jpg, pdf,...)
+```python
+diag.savefig("dateiname.png", dpi = 200)
+```
+
+###### Legende
+```python
+diag = plt.figure()
+ax = diag.add_axes([0, 0, 1, 1])
+ax.plot(x, x**2, lable = "x^2") # Beschriftung der Kurven
+ax.plot(x, x**3, lable = "x^3")
+
+ax.legend()                     # Hinzufügen der Legende
+# ax.legende(loc = 1)           # Position der Legende bestimmen
+```
+
+
