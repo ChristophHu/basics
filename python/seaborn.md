@@ -109,3 +109,25 @@ Die `clustermap()` ist eine gruppierte `heatmap()`, nach Werten.
 sns.clustermap(data.corr(), cmap='coolwarm', standard_scale=1)  # Scale beschr. die Gliederung der Cluster
 ```
 
+### Regression Plots
+
+#### LM Plot
+```python
+sns.lmplot(x='S1', y='S2', data=data)             # Ausgabe eines LMPlot
+#sns.lmplot(x='S1', y='S2', data=data, hue='S3', palette='coolwarm')  # Unterteilung nach Spalte 3
+#sns.lmplot(x='S1', y='S2', data=data, hue='S3', markers=['o', 'v'])  # Unterteilung mit Kreis und Dreieck
+#sns.lmplot(x='S1', y='S2', data=data, scatter_kws=('s'=100))         # Marker vergrößern
+
+#sns.lmplot(x='S1', y='S2', data=data, col='S3')  # Splate 3 nach 2 Diagrammen unterteilen
+#sns.lmplot(x='S1', y='S2', data=data, col='S3', row='S4')  # weitere Unterteilung in Zeilen
+```
+
+### Gridplot
+
+### Style und Farbgebung 
+```python
+plt.figure(figsize=(13, 3))
+sns.set_style('darkgrid')                         # Auswahl aus Std.-Grids
+sns.countplot(x='S1', data=data)                  # Balkendiagramm
+sns.dispine()                                     # Rahmen entfernen (ggf. auch Parameter: left=true)
+```
