@@ -86,3 +86,26 @@ plt.yticks([])                                    # Y-Achse Markierungen entfern
 #sns.kdeplot(dataset)                             # Ausführung des kdeplot
 ```
 
+### Matrix Plots
+
+#### Heatmap
+````python
+import seaborn as sns
+%matplotlib inline
+
+data = ('S1':[3, 2, 1],
+        'S2':[2, 3, 1],
+        'S3':[2, 1, 3])
+
+sns.heatmap(data.corr())                          # Korrelation der Spalten zueinander
+#sns.heatmap(data.corr(), cmap='coolwarm', annot=True, linecolor='white', linewidth=1) # Farbkorrektur, Inhalt anzeigen, Linien
+```
+
+Ist eine Tabelle vorhanden, kann diese per `data.pivot_table(values='werte', index='rows', columns='cols')`.
+
+#### Clustermap
+Die `clustermap()` ist eine gruppierte `heatmap()`, nach Werten.
+```python
+sns.clustermap(data.corr(), cmap='coolwarm', standard_scale=1)  # Scale beschr. die Gliederung der Cluster
+```
+
