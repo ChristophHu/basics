@@ -32,16 +32,16 @@ sns.distplot(data("col"))                         # Ausgabe des Distplot Diagram
 #### JointPlot
 ```python
 sns.jointplot(x="col1", y="col2", data=data, kind="scatter")  # 
-sns.jointplot(x="col1", y="col2", data=data, kind="hex")  # in Form von Hexagons
-sns.jointplot(x="col1", y="col2", data=data, kind="reg")  # Trendanzeige
-sns.jointplot(x="col1", y="col2", data=data, kind="kde")  # Gradientverteilung
+#sns.jointplot(x="col1", y="col2", data=data, kind="hex")  # in Form von Hexagons
+#sns.jointplot(x="col1", y="col2", data=data, kind="reg")  # Trendanzeige
+#sns.jointplot(x="col1", y="col2", data=data, kind="kde")  # Gradientverteilung
 ```
 
 #### PairPlot
-```python
+```pythonx
 sns.pairplot(data)                                # Allgemeine Darstellung
-sns.pairplot(data, hue="col")                     # Hervorhebung von untersch. Werten der Spalte
-sns.pairplot(data, hue="col", palette="coolwarm") # veränderte Farbgebung
+#sns.pairplot(data, hue="col")                     # Hervorhebung von untersch. Werten der Spalte
+#sns.pairplot(data, hue="col", palette="coolwarm") # veränderte Farbgebung
 ```
 
 #### RugPlot
@@ -61,13 +61,13 @@ sns.rugplot(dataset)                              # Ausgabe des Dataset als Rugp
 x_min = dataset.min() - 2                         # X-Achse beschränken
 x_max = dataset.max() + 2
 
-x_axes = np.linspace(x_min, x_max, 100)
+x_axis = np.linspace(x_min, x_max, 100)
 bandwidth = ((4*data.std()**5)/(3*len(dataset)))**.2
 
 kernel_list = []
 
 for data_point in dataset:
-  kernel = stats.norm(data_point, bandwidth).pdf(x_axes)
+  kernel = stats.norm(data_point, bandwidth).pdf(x_axis)
   kernel_list.append(kernel)                      # Für jeden Punkt wird ein Kernel erstellt und angefügt
   
   kernel = kernel / kernel.max()
@@ -75,5 +75,14 @@ for data_point in dataset:
   plt.plot(x_axes, kernel, color = "grey", alpha = 0.5)
   
 plt.ylim(0, 1)                                    # Ausgabe der Verteilung als Graphen, die Summe der Graphen stellt der KDE-Plot dar
+
+sum_of_kde = np.sum(kernel_list, axis=0)          # Graphen summieren
+
+fig = plt.plot(x_axis, sum_of_kde, color='indianred')
+sns.rugplot(dataset, c = 'indianred')
+
+plt.yticks([])                                    # Y-Achse Markierungen entfernen
+
+#sns.kdeplot(dataset)                             # Ausführung des kdeplot
 ```
 
