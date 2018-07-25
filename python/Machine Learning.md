@@ -47,4 +47,42 @@ from sklearn.family import Modell     # Allgemeiner Import des Paketes
 
 ### Linear Regression
 
-#### Einführung
+#### Vorgehen
+
+#### Durchführung (am Beispiel einer Prognose der Kosten eines Hauskaufs)
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt       # zur Darstellung
+import seaborn as sns                 # ebenfalls zur Darstellung
+%matplotlib inline
+
+# die Daten
+USAhousing = pd.read_csv('USAhousing.csv')  # laden der csv-Datei in ein DataFrame
+USAhousing.head()                     # Tabelle erster 5 Datensätze
+USAhousing.info()                     # Einkommen, Hausalter, Räume, Schlafzimmer, Einwohner
+USAhousing.describe()                 # Übersicht der Info nach count, mean, sdt, min..max
+USAhousing.columns                    # Spaltennamen als Array
+
+# Darstellung von Parametern
+sns.pairplot(USAhousing)              # alle Spalten werden gegenübergestellt (zur Interpretation)
+sns.distplot(USAhousing['Price'])     # Ausprägung des Preises (Gaus-Normalverteilung) als Balkendiagramm
+sns.heatmap(USAhousing.corr())        # Korrelation der Daten (Abhängigkeiten) in Form einer Heatmap
+                                      # Bestehen Abhängigkeiten, kann ein Modell gebildet werden
+
+# Lineare Regression (der Preis soll vorhergesagt werden)
+X = USAhousing(['Avg. Area Income', 'Avg. Area House Age',...])
+y = USAhousing('Price')               # 
+
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=101) # testdaten=40%
+
+from sklearn.linear_model import LinearRegression
+lm = LinearRegression()
+lm.fit(X_train, y_train)              # trainieren des Modells
+lm.coef_                              # Koefizienten
+coef_df = pd.DataFrame(lm.coef_,X.columns=['Koeffizienten'])
+coef_df                               # Ausgabe des Dataframe mit den Koeffizienten nach Parameter
+                                      # alle Werte beziehen sich auf die Steigerung des Preises nach Einheit
+```
+
