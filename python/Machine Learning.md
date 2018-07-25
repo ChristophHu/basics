@@ -4,6 +4,9 @@ Eine Methode der Datenanalyse, die die Bilduing von analytischen Modellen automa
 
 Aud der Seite [www-bcf.usc.edu](www-bcf.usc.edu) - "An Introduction to Statistical Leraning" frei zum Download.
 
+## Beispieldaten
+[Kaggle](www.kaggle.com)
+
 ## Grundlagen
 
 ### Anwendungsgebiete
