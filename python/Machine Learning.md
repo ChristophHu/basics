@@ -30,3 +30,21 @@ Daten Aquisition > Daten bereinigen > Modell Training > Modell Tests > Modell Ei
 * Supervised Learning (gekennzeichnete Daten (Mail ist Spam)),
 * Unsupervised Learning (keine Kennzeichnung, aber Hinweise in Daten),
 * Reinforcement Learning (Erfahrung sammeln um Aufgaben auszuführen -> durch Algorithmen).
+
+
+## Machine Learning in Python
+
+### Das Scikit Learn Paket
+
+#### Installation
+Mit dem Kommando `conda install scikit-learn` kann das Paket nachinstalliert werden.
+
+#### Import des Paketes
+```python
+from sklearn.family import Modell     # Allgemeiner Import des Paketes
+#from sklearn.linear_model import LinearRegression
+```
+
+### Linear Regression
+
+#### Einführung
