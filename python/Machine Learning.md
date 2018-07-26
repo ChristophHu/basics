@@ -51,6 +51,13 @@ from sklearn.family import Modell     # Allgemeiner Import des Paketes
 ### Linear Regression
 
 #### Vorgehen
+1. Daten aufnehmen
+2. Daten verglichen
+3. Grunddaten analysieren (inkl. Verteilung)
+4. Korrelation (Abhängigkeiten) analysiert
+5. Trennung der Daten in Trainings- und Testdaten
+6. Modell trainiert (per intercept_ und coef_)
+7. Ergebnisse ausgeben 
 
 #### Durchführung (am Beispiel einer Prognose der Kosten eines Hauskaufs)
 ```python
@@ -87,5 +94,19 @@ lm.coef_                              # Koefizienten
 coef_df = pd.DataFrame(lm.coef_,X.columns=['Koeffizienten'])
 coef_df                               # Ausgabe des Dataframe mit den Koeffizienten nach Parameter
                                       # alle Werte beziehen sich auf die Steigerung des Preises nach Einheit
+
+# Vorhersage des Modells berechnen
+predictions = lm.predict(X_test)      # Nutzung der Testdaten
+predictions                           # Ausgabe (Array)
+plt.scatter(y_test, predictions)      # Vergleich der y_test-Daten mit den Predictions
+                                      # die Differenz (y_test - predictions) zeigt die Zuverlässigkeit an
+
+sns.distplot(y_test - predictions)    # Ausgabe der DIfferenz
+
+# Berechnung der Abweichungen - mean error
+from sklearn import metrics
+metrics.mean_absolute_error(y_test, predictions)  # MAE - mean absolute error
+metrics.mean_squared_error(y_test, predictions)  # MSE - mean squared error
+np.sqrt(metrics.mean_squared_error(y_test, predictions))  # RMSE - root mean absolute error
 ```
 
