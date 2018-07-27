@@ -110,3 +110,35 @@ metrics.mean_squared_error(y_test, predictions)  # MSE - mean squared error
 np.sqrt(metrics.mean_squared_error(y_test, predictions))  # RMSE - root mean absolute error
 ```
 
+### Verzerrung/Varianz (Biaz/Variance)
+Im sinne einer Zielscheibe, werden mit der Verzerrung und Varianz die Genauigkeit eines Modells bestimmt. Ein Modell mit einer hohen Verzellrung und einer hohen Varianz ... Ziel ist es eine nidrige Verzerrung und eine nidrige Varianz (im Ziel) zu erreichen.
+
+Mittels der Berechnungen von Abweichungen in Abhängigkeit von der Komplexität, ist zu erkennen welches Modell oder welche Komplexität die  geringste Abweichung enthält.
+
+### Logistic Regression
+Bei der Logistic Regression handelt es sich um eine binäre (ja/nein) Klassifikation. Eine Lineare Regression würde in diesem Fall nicht greifen, da Wertegruppen nur 0 und 1 enthalten. Eine lineare Funktion kann dies nicht abbilden. Die Logistische Funktion gibt eine Wahrscheionlichkeit zwischen 0 und 1 aus (0,5 = 1, 0,4 = 0).
+
+#### Einsatzgebiete
+* Erkennen von Spam-EMails,
+* Kreditausfall (ja/nein),
+* Krankheitsdiagnose.
+
+#### Konfusionsmatrix
+Die Konfusionsmatrix gibt eine Aussage zur Genauigkeit eines Modells wieder. Dieses stellt die Vorhersage den eigentlichen Ergebnissen gegenüber. Dabei kann die Verhersage dem Ergebnis entsprechen (True=T, Ergebnis ist positiv (P) oder negativ (N)) oder die Vorsage entspricht nicht dem Ergebnis (False=F) und das Modell ist Falsch!
+
+n=165|Vorhersage: NO|Vorhersage: YES|-
+---|---|---|---
+Ergebnis: NO|TN=50|FP=10|60
+Ergebnis: YEA|FN=5|TP=100|105
+-|55|110|165
+
+Berechnung der Fehlerverteilung: (FN + FP)/n = 15 / 165 = 0.09 - zu 9% wird ein falsches Ergebnis prognostiziert.
+                                 (TN + TP)/n = 150 / 165 = 0.909 - zu ca. 91% wird ein korrektes Ergebnis vorhergesagt.
+
+#### Vorgehen
+
+#### Durchführung
+www.kaggle.de - Titanic-Daten
+```python
+
+```
