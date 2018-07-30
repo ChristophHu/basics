@@ -48,9 +48,39 @@ from sklearn.family import Modell     # Allgemeiner Import des Paketes
 #from sklearn.linear_model import LinearRegression
 ```
 
-### Bereinigung von Tabellen (am Beispiel Titanic-Desaster)
 
-### Normalisierung (Logisch)
+### Bereinigung (am Beispiel Titanic-Desaster)
+
+#### Nullwerte berichtigen/beheben
+Werte, die als 'NaN' gesetzt werden, können für das ML nicht berücksichtigt werden. Diese werden entfernt oder behoben. Um diese zu berücksichtigen, können sie mit einem Durchschnisstwert o.Ä. gesetzt werden. Der Durchschnittswert muss jedoch erst bestimmt werden.
+```python
+train.isnull()                        # Ausgabe von Null-Werten
+sns.heatmap(train.isnull(), yticklabels = False, cbar = False, cmap = 'viridis')  # Ausgabe von Nullwerten in einer Heatmap
+
+# Setzen des Alters in Abhängigkeit von der Klasse
+def input_age(cols):
+  age = cols[0]
+  pclass = cols[1]
+  if pd.isnull(age):
+    if pclass = 1:
+      return 37
+    elif pcals = 2:
+      return 29
+    else:
+      return 24
+  else:
+    return age
+# Ende des def
+
+train['Age'] = train[['Age', 'Pclass']].apply(input_age, axis = 1)  # Spalte 'Age' durch Funktion anpassen
+
+sns.heatmap(train.isnull(), yticklabels = False, cbar = cmap = 'viridis') # Vergleich beider Heatmaps bez. Nullwerten
+train.dropna(inplace = True)                  # Entfernen der Spalten mit Null-Werten (final)
+train.drop('Cabin', axis = 1, inplace = True) # Entfernen der Spalte Kabine (final)
+```
+Datensätze mit Null-Werten werden gelöscht.
+
+#### Normalisierung (Logisch)
 Um mittels einer Spalte (Sex oder Embarked) das ML anzustoßen, müssen diese normalisiert werden. Der Dummy von 'Sex' enthält die Spalten male und female. Es genügt eine Spalte 'male' mit 1 und 0. Der Dummy von 'Embarked' enthält 3 Spalten Q=Queenstown, C=Cherbourg und S=Southampton mit 1 und 0. zwei Spalten genügen, denn wenn Q = 0 und C = 0, so muss es sich um S handeln.
 ```python
 sex = pd.get_dummies(train['Sex'], drop_first=true)
@@ -63,6 +93,7 @@ Es wurden die neuen Spalten an die Tabelle Train angefügt. Diese enthalten ledi
 train.drop(['Sex', 'Embarked', 'Name', 'Ticket'], axis = 1, inplace = True)
 ```
 Es bleiben lediglich numerische Werte enthalten.
+
 
 ### Linear Regression
 
@@ -83,7 +114,7 @@ import matplotlib.pyplot as plt       # zur Darstellung
 import seaborn as sns                 # ebenfalls zur Darstellung
 %matplotlib inline
 
-# die Daten
+# Daten
 USAhousing = pd.read_csv('USAhousing.csv')  # laden der csv-Datei in ein DataFrame
 USAhousing.head()                     # Tabelle erster 5 Datensätze
 USAhousing.info()                     # Einkommen, Hausalter, Räume, Schlafzimmer, Einwohner
@@ -165,28 +196,6 @@ train.info()                            # Informationen zu Spalten
 train.describe()                        # Informationen zu Spalten
 train.columns()                         # Ausgabe der Spalten in einem Array
 
-# Bereinigung / Sichtung von NULL-Werten
-sns.heatmap(train.isnull(), yticklabels = False, cbar = False, cmap = 'viridis')  # Ausgabe der Nullwerte als Diagramm
-sns.distplot(train['Age'].dropna(), kde = False, bins = 30) # NULL-Werte der Spalte Age nicht betrachten -> .dropna()
-
-def inpute_age(cols):
-  age = cols[0]
-  pclass = cols[1]
-  if pd.isnull(age):
-    if pclass = 1:
-      return 37
-    elif pclass = 2:
-      return 29
-    else:
-      return 24
-  else:
-    return age
-# Ende def
-
-train['Age'] = train[['Age', 'Pclass']].apply(inpute_age, axis=1)
-sns.hzeatmap(train.isnull(), yticklabels=False, cbar=False, cmap='viridis') # Erneute Ausgabe der Nullwerte
-train.dropp('Cabin', axis=1, inplace=True)  # Entfernen der Spalte Kabine final
-train.dropna(inplace=True)                  # Entfernen von Datensätzen mit NULL-Werten
 # weitere allg. Sichtung
 sns.countplot(x = 'Survived', data = train) # Ausgabe/Gegenüberstellung Überlebender/nicht Überlebender
 sns.countplot(x = 'Survived', hue = 'Pclass', data = train) # nach Klasse
