@@ -140,5 +140,20 @@ Berechnung der Fehlerverteilung: (FN + FP)/n = 15 / 165 = 0.09 - zu 9% wird ein 
 #### Durchführung
 www.kaggle.de - Titanic-Daten
 ```python
+# Import der Datem
+train = pd.read_csv("titanic_train.csv")
 
+# Sichtung der Daten/Informationen
+train.head()                            # Ausgabe der ersten 5 Datensätze
+train.info()                            # Informationen zu Spalten
+train.describe()                        # Informationen zu Spalten
+train.columns()                         # Ausgabe der Spalten in einem Array
+
+# Bereinigung / Sichtung von NULL-Werten
+sns.heatmap(train.isnull(), yticklabels = False, cbar = False, cmap = 'viridis')  # Ausgabe der Nullwerte als Diagramm
+sns.distplot(train['Age'].dropna(), kde = False, bins = 30) # NULL-Werte der Spalte Age nicht betrachten -> .dropna()
+
+# weitere allg. Sichtung
+sns.countplot(x = 'Survived', data = train) # Ausgabe/Gegenüberstellung Überlebender/nicht Überlebender
+sns.countplot(x = 'Survived', hue = 'Pclass', data = train) # nach Klasse
 ```
