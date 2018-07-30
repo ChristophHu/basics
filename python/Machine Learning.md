@@ -48,6 +48,22 @@ from sklearn.family import Modell     # Allgemeiner Import des Paketes
 #from sklearn.linear_model import LinearRegression
 ```
 
+### Bereinigung von Tabellen (am Beispiel Titanic-Desaster)
+
+### Normalisierung (Logisch)
+Um mittels einer Spalte (Sex oder Embarked) das ML anzustoßen, müssen diese normalisiert werden. Der Dummy von 'Sex' enthält die Spalten male und female. Es genügt eine Spalte 'male' mit 1 und 0. Der Dummy von 'Embarked' enthält 3 Spalten Q=Queenstown, C=Cherbourg und S=Southampton mit 1 und 0. zwei Spalten genügen, denn wenn Q = 0 und C = 0, so muss es sich um S handeln.
+```python
+sex = pd.get_dummies(train['Sex'], drop_first=true)
+embark = pd.get_dummies(train['Embarked'], drop_first=True)
+
+train = pd.concat([train, sex, embark]) # Zusammenführen der Tabellen train, sex und embark
+```
+Es wurden die neuen Spalten an die Tabelle Train angefügt. Diese enthalten lediglich 1 und 0. Nicht auflösbare Spalten und bereits aufgelöste Spalten können entfernt werden.
+```python
+train.drop(['Sex', 'Embarked', 'Name', 'Ticket'], axis = 1, inplace = True)
+```
+Es bleiben lediglich numerische Werte enthalten.
+
 ### Linear Regression
 
 #### Vorgehen
@@ -129,7 +145,7 @@ Die Konfusionsmatrix gibt eine Aussage zur Genauigkeit eines Modells wieder. Die
 n=165|Vorhersage: NO|Vorhersage: YES|-
 ---|---|---|---
 Ergebnis: NO|TN=50|FP=10|60
-Ergebnis: YEA|FN=5|TP=100|105
+Ergebnis: YES|FN=5|TP=100|105
 -|55|110|165
 
 Berechnung der Fehlerverteilung: (FN + FP)/n = 15 / 165 = 0.09 - zu 9% wird ein falsches Ergebnis prognostiziert.
@@ -153,7 +169,32 @@ train.columns()                         # Ausgabe der Spalten in einem Array
 sns.heatmap(train.isnull(), yticklabels = False, cbar = False, cmap = 'viridis')  # Ausgabe der Nullwerte als Diagramm
 sns.distplot(train['Age'].dropna(), kde = False, bins = 30) # NULL-Werte der Spalte Age nicht betrachten -> .dropna()
 
+def inpute_age(cols):
+  age = cols[0]
+  pclass = cols[1]
+  if pd.isnull(age):
+    if pclass = 1:
+      return 37
+    elif pclass = 2:
+      return 29
+    else:
+      return 24
+  else:
+    return age
+# Ende def
+
+train['Age'] = train[['Age', 'Pclass']].apply(inpute_age, axis=1)
+sns.hzeatmap(train.isnull(), yticklabels=False, cbar=False, cmap='viridis') # Erneute Ausgabe der Nullwerte
+train.dropp('Cabin', axis=1, inplace=True)  # Entfernen der Spalte Kabine final
+train.dropna(inplace=True)                  # Entfernen von Datensätzen mit NULL-Werten
 # weitere allg. Sichtung
 sns.countplot(x = 'Survived', data = train) # Ausgabe/Gegenüberstellung Überlebender/nicht Überlebender
 sns.countplot(x = 'Survived', hue = 'Pclass', data = train) # nach Klasse
+
+# Cufflinks-Diagramme
+import cufflinks as cf                  # import cufflinks zur Ansicht von Statistiken
+cf.go_offline()                         # cufflinks für die offline-Ansicht
+train['Fare'].iplot(kind='hist', bins=30, color='green')  # interaktives Diagramm mit Zoom
+
+
 ```
