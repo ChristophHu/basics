@@ -46,8 +46,38 @@ Mit dem Kommando `conda install scikit-learn` kann das Paket nachinstalliert wer
 ```python
 from sklearn.family import Modell     # Allgemeiner Import des Paketes
 #from sklearn.linear_model import LinearRegression
+``` 
+
+### Allgemeiner Import (am Beispiel Titanic-Desaster)
+
+#### Bibliotheken
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt       # zur Darstellung
+import seaborn as sns                 # ebenfalls zur Darstellung
+%matplotlib inline
 ```
 
+#### Daten
+```python
+train = pd.read_csv('train.csv')      # laden der csv-Datei in ein DataFrame
+```
+
+### Allgemeiner Vergleich der Daten
+```python
+train.head()                          # Tabelle erster 5 Datensätze
+train.columns                         # Spaltennamen als Array
+train.info()                          # Einkommen, Hausalter, Räume, Schlafzimmer, Einwohner
+train.describe()                      # Übersicht der Info nach count, mean, sdt, min..max
+
+# Darstellung von Parametern
+sns.pairplot(train)                   # alle Spalten werden gegenübergestellt (zur Interpretation)
+sns.distplot(train['Price'])          # Ausprägung des Preises (Gaus-Normalverteilung) als Balkendiagramm
+sns.heatmap(train.corr())             # Korrelation der Daten (Abhängigkeiten) in Form einer Heatmap
+                                      # Bestehen Abhängigkeiten, kann ein Modell gebildet werden
+                                      # (Alter, Sex, Klasse,...)
+```
 
 ### Bereinigung (am Beispiel Titanic-Desaster)
 
@@ -98,8 +128,8 @@ Es bleiben lediglich numerische Werte enthalten.
 ### Linear Regression
 
 #### Vorgehen
-1. Daten aufnehmen
-2. Daten verglichen
+1. Import der Daten
+2. Verglichen der Daten -> Korrelation/Abhängigkeit analysieren
 3. Grunddaten analysieren (inkl. Verteilung)
 4. Korrelation (Abhängigkeiten) analysiert
 5. Trennung der Daten in Trainings- und Testdaten
@@ -108,25 +138,6 @@ Es bleiben lediglich numerische Werte enthalten.
 
 #### Durchführung (am Beispiel einer Prognose der Kosten eines Hauskaufs)
 ```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt       # zur Darstellung
-import seaborn as sns                 # ebenfalls zur Darstellung
-%matplotlib inline
-
-# Daten
-USAhousing = pd.read_csv('USAhousing.csv')  # laden der csv-Datei in ein DataFrame
-USAhousing.head()                     # Tabelle erster 5 Datensätze
-USAhousing.info()                     # Einkommen, Hausalter, Räume, Schlafzimmer, Einwohner
-USAhousing.describe()                 # Übersicht der Info nach count, mean, sdt, min..max
-USAhousing.columns                    # Spaltennamen als Array
-
-# Darstellung von Parametern
-sns.pairplot(USAhousing)              # alle Spalten werden gegenübergestellt (zur Interpretation)
-sns.distplot(USAhousing['Price'])     # Ausprägung des Preises (Gaus-Normalverteilung) als Balkendiagramm
-sns.heatmap(USAhousing.corr())        # Korrelation der Daten (Abhängigkeiten) in Form einer Heatmap
-                                      # Bestehen Abhängigkeiten, kann ein Modell gebildet werden
-
 # Lineare Regression (der Preis soll vorhergesagt werden)
 X = USAhousing(['Avg. Area Income', 'Avg. Area House Age',...])
 y = USAhousing('Price')               # 
@@ -179,8 +190,8 @@ Ergebnis: NO|TN=50|FP=10|60
 Ergebnis: YES|FN=5|TP=100|105
 -|55|110|165
 
-Berechnung der Fehlerverteilung: (FN + FP)/n = 15 / 165 = 0.09 - zu 9% wird ein falsches Ergebnis prognostiziert.
-                                 (TN + TP)/n = 150 / 165 = 0.909 - zu ca. 91% wird ein korrektes Ergebnis vorhergesagt.
+Berechnung der Fehlerverteilung: (FN + FP) / n = 15 / 165 = 0.09 - zu 9% wird ein falsches Ergebnis prognostiziert.
+                                 (TN + TP) / n = 150 / 165 = 0.909 - zu ca. 91% wird ein korrektes Ergebnis vorhergesagt.
 
 #### Vorgehen
 
@@ -204,6 +215,4 @@ sns.countplot(x = 'Survived', hue = 'Pclass', data = train) # nach Klasse
 import cufflinks as cf                  # import cufflinks zur Ansicht von Statistiken
 cf.go_offline()                         # cufflinks für die offline-Ansicht
 train['Fare'].iplot(kind='hist', bins=30, color='green')  # interaktives Diagramm mit Zoom
-
-
 ```
