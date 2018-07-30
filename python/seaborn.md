@@ -12,7 +12,7 @@ Um den Umfang von Seaborn zu erfassen kann die Homepage [www.seaborn.pydata.org]
 #### Import der Pakete
 ```python
 import seaborn as sns
-5matplotlib inline
+%matplotlib inline
 ```
 
 #### Laden der Daten
@@ -107,7 +107,7 @@ Darstellung von kategorischen Daten und Verteilung als Box (quantitative Daten),
 ```python
 sns.boxplot(x = "col", y = "col2", data = data, palette = "rainbow")
 #sns.boxplot(x = "col", y = "col2", data = data, palette = "rainbow", orient = "h")  # horizontale Ausrichtung
-sns.boxplot(x = "col", y = "col2", data = data, hue=""col3) # Hue stellt Verteilung nebeneinander nach Spalte
+#sns.boxplot(x = "col", y = "col2", data = data, hue=""col3) # Hue stellt Verteilung nebeneinander nach Spalte
 ```
 
 ### Matrix Plots
