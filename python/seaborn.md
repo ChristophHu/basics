@@ -9,19 +9,21 @@ Grundlage von Seaborn ist die MatPlotLib.
 ### Beispiele
 Um den Umfang von Seaborn zu erfassen kann die Homepage [www.seaborn.pydata.org](www.seaborn.pydata.org) besucht werden. Diese beinhaltet in der Gallerie einen visuellen Auszug von möglichen Diagrammen. Die API beschreibt die möglichen Methoden und Funktioen. (Plot-Funktionen, Styles, Farben, Widgets,...)
 
-## Visualisierung
-
-### Import der Pakete
+#### Import der Pakete
 ```python
 import seaborn as sns
-%matplotlib inline
+5matplotlib inline
 ```
 
-### Laden der Daten
+#### Laden der Daten
 ```python
-data = seaborn.load_dataset("Data")               # 
+data = seaborn.load_dataset("Data")
 data.head()                                       # Ausgabe der ersten 5 Datensätze
 ```
+
+## Visualisierung
+
+### Verteilungs Plots
 
 #### DistPlot
 ```python
@@ -38,7 +40,7 @@ sns.jointplot(x="col1", y="col2", data=data, kind="scatter")  #
 ```
 
 #### PairPlot
-```pythonx
+```python
 sns.pairplot(data)                                # Allgemeine Darstellung
 #sns.pairplot(data, hue="col")                     # Hervorhebung von untersch. Werten der Spalte
 #sns.pairplot(data, hue="col", palette="coolwarm") # veränderte Farbgebung
@@ -84,6 +86,28 @@ sns.rugplot(dataset, c = 'indianred')
 plt.yticks([])                                    # Y-Achse Markierungen entfernen
 
 #sns.kdeplot(dataset)                             # Ausführung des kdeplot
+```
+
+### Kategorische Plots
+
+#### Barplot
+Darstellung eines einfachen Balkendiagrams.
+```python
+sns.barplot(x = "col", y = "col2", data = data)
+```
+
+#### Countplot
+Zählung von Inhalten einer Spalte und Aufgliederung.
+```python
+sns.countplot(x = "col", data = data)
+```
+
+#### Boxplot
+Darstellung von kategorischen Daten und Verteilung als Box (quantitative Daten), Biske (restliche Verteilung von Werten).
+```python
+sns.boxplot(x = "col", y = "col2", data = data, palette = "rainbow")
+#sns.boxplot(x = "col", y = "col2", data = data, palette = "rainbow", orient = "h")  # horizontale Ausrichtung
+sns.boxplot(x = "col", y = "col2", data = data, hue=""col3) # Hue stellt Verteilung nebeneinander nach Spalte
 ```
 
 ### Matrix Plots
