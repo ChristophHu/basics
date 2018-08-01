@@ -220,5 +220,17 @@ from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test = train_test_split(train.drop('Survived', axis=1), train['Survived'], test_size = 0.3, random_state = 101)
 
+from sklearn.linear_model import LogisticRegression
+log_model = LogisticRegression()
 
+log_model.fit(X_train, y_train)         # Modell trainieren
+
+predictions = log_model.predict(X_test)
+
+# Classification/Metrics allg. schreiben
+from sklearn.metrics import classification_report
+print(classification_report(y_test, predictions)) # Ausgabe einer Tabelle mit Metrics
+
+from sklearn.metrics import confusion_matrix
+confusion_matrix(y_test, predictions)             ' Ausgabe einer Konfusions-Matrix
 ```
