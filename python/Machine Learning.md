@@ -215,4 +215,10 @@ sns.countplot(x = 'Survived', hue = 'Pclass', data = train) # nach Klasse
 import cufflinks as cf                  # import cufflinks zur Ansicht von Statistiken
 cf.go_offline()                         # cufflinks für die offline-Ansicht
 train['Fare'].iplot(kind='hist', bins=30, color='green')  # interaktives Diagramm mit Zoom
+
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(train.drop('Survived', axis=1), train['Survived'], test_size = 0.3, random_state = 101)
+
+
 ```
