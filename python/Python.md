@@ -364,7 +364,7 @@ diag.savefig("dateiname.png", dpi = 200)
 ```
 
 ###### Legende
-```python
+```python 
 diag = plt.figure()
 ax = diag.add_axes([0, 0, 1, 1])
 ax.plot(x, x**2, lable = "x^2") # Beschriftung der Kurven
